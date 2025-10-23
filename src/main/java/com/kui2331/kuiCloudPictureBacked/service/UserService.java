@@ -1,7 +1,9 @@
 package com.kui2331.kuiCloudPictureBacked.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureQueryRequest;
 import com.kui2331.kuiCloudPictureBacked.model.dto.user.UserQueryRequest;
+import com.kui2331.kuiCloudPictureBacked.model.entity.Picture;
 import com.kui2331.kuiCloudPictureBacked.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kui2331.kuiCloudPictureBacked.model.vo.LoginUserVO;
@@ -25,7 +27,7 @@ public interface UserService extends IService<User> {
      * @param checkPassword 校验密码
      * @return 新用户 id
      */
-    long userRegister(String userAccount, String userPassword, String checkPassword);
+    long userRegister(String userAccount, String userPassword, String checkPassword,String userName);
 
     /**
      * 用户登录
@@ -67,4 +69,14 @@ public interface UserService extends IService<User> {
     List<UserVO> getUserVOList(List<User> userList);
 
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
+
+
+    /**
+     * 是否为管理员
+     *
+     * @param user
+     * @return
+     */
+    boolean isAdmin(User user);
+
 }
