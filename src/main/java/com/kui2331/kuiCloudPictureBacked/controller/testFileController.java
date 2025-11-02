@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequestMapping("/file")
-public class FileController {
+public class testFileController {
 
     @Resource
     private CosManager cosManager;

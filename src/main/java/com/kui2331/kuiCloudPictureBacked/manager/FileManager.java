@@ -8,9 +8,12 @@ import com.kui2331.kuiCloudPictureBacked.config.CosClientConfig;
 import com.kui2331.kuiCloudPictureBacked.exception.BusinessException;
 import com.kui2331.kuiCloudPictureBacked.exception.ErrorCode;
 import com.kui2331.kuiCloudPictureBacked.exception.ThrowUtils;
+import com.kui2331.kuiCloudPictureBacked.manager.CosManager;
 import com.kui2331.kuiCloudPictureBacked.model.dto.file.UploadPictureResult;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.model.ciModel.persistence.ImageInfo;
+import com.qcloud.cos.model.ciModel.persistence.OriginalInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,8 +24,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 文件服务
+ * @deprecated 已废弃，改为使用 upload 包的模板方法优化
+ */
 @Slf4j
 @Service
+@Deprecated
 public class FileManager {
 
     @Resource
@@ -38,7 +46,7 @@ public class FileManager {
      * @param uploadPathPrefix 上传路径前缀
      * @return
      */
-    public  UploadPictureResult uploadPicture(MultipartFile multipartFile, String uploadPathPrefix) {
+    public UploadPictureResult uploadPicture(MultipartFile multipartFile, String uploadPathPrefix) {
         // 校验图片
         validPicture(multipartFile);
         // 图片上传地址
@@ -63,7 +71,7 @@ public class FileManager {
             // 封装返回结果
             UploadPictureResult uploadPictureResult = new UploadPictureResult();
             uploadPictureResult.setUrl(cosClientConfig.getHost() + "/" + uploadPath);
-            uploadPictureResult.setPicName(FileUtil.mainName(originalFilename));
+            uploadPictureResult.setPicName(FileUtil.getName(originalFilename));
             uploadPictureResult.setPicSize(FileUtil.size(file));
             uploadPictureResult.setPicWidth(picWidth);
             uploadPictureResult.setPicHeight(picHeight);

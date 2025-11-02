@@ -3,6 +3,8 @@ package com.kui2331.kuiCloudPictureBacked.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureQueryRequest;
+import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureReviewRequest;
+import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureUploadByBatchRequest;
 import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureUploadRequest;
 import com.kui2331.kuiCloudPictureBacked.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -22,12 +24,12 @@ public interface PictureService extends IService<Picture> {
     /**
      * 上传图片
      *
-     * @param multipartFile
+     * @param inputSource
      * @param pictureUploadRequest
      * @param loginUser
      * @return
      */
-    PictureVO uploadPicture(MultipartFile multipartFile, PictureUploadRequest pictureUploadRequest, User loginUser);
+    PictureVO uploadPicture(Object inputSource, PictureUploadRequest pictureUploadRequest, User loginUser);
 
     /**
      * 获取图片包装类（单条）
@@ -38,6 +40,15 @@ public interface PictureService extends IService<Picture> {
      */
     PictureVO getPictureVO(Picture picture, HttpServletRequest request);
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
+
+    /**
+     * 批量抓取和创建图片
+     *
+     * @param pictureUploadByBatchRequest
+     * @param loginUser
+     * @return 成功创建的图片数
+     */
+    int uploadPictureByBatch(PictureUploadByBatchRequest pictureUploadByBatchRequest, User loginUser);
 
     /**
      * 获取查询对象
@@ -53,4 +64,14 @@ public interface PictureService extends IService<Picture> {
      * @param picture
      */
     void validPicture(Picture picture);
+
+    /**
+     * 图片审核
+     *
+     * @param pictureReviewRequest
+     * @param loginUser
+     */
+    void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+
+    void fillReviewParams(Picture picture, User loginUser);
 }
