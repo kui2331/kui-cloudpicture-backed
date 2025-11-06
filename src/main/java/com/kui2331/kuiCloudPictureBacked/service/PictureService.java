@@ -2,14 +2,12 @@ package com.kui2331.kuiCloudPictureBacked.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureQueryRequest;
-import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureReviewRequest;
-import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureUploadByBatchRequest;
-import com.kui2331.kuiCloudPictureBacked.model.dto.picture.PictureUploadRequest;
+import com.kui2331.kuiCloudPictureBacked.model.dto.picture.*;
 import com.kui2331.kuiCloudPictureBacked.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kui2331.kuiCloudPictureBacked.model.entity.User;
 import com.kui2331.kuiCloudPictureBacked.model.vo.PictureVO;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +39,12 @@ public interface PictureService extends IService<Picture> {
     PictureVO getPictureVO(Picture picture, HttpServletRequest request);
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
 
+    void deletePicture(long pictureId, User loginUser);
+
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
+
+    void checkPictureAuth(User loginUser, Picture picture);
+
     /**
      * 批量抓取和创建图片
      *
@@ -57,6 +61,9 @@ public interface PictureService extends IService<Picture> {
      * @return
      */
     QueryWrapper<Picture> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
+
+    @Async
+    void clearPictureFile(Picture oldPicture);
 
     /**
      * 校验图片
