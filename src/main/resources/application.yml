@@ -2,6 +2,10 @@ server:
   port: 8123
   servlet:
     context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
 spring:
   # 开放更大的文件上传体积
   servlet:
@@ -17,6 +21,16 @@ spring:
     url: jdbc:mysql://localhost:3306/kui_picture
     username: root
     password: hsp
+  redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000
+  # session 配置
+  session:
+    store-type: redis
+    # session 30 天过期
+    timeout: 2592000
 
 mybatis-plus:
   configuration:

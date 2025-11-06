@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
-
 /**
  * 图片
  * @TableName picture
@@ -23,6 +22,11 @@ public class Picture implements Serializable {
      * 图片 url
      */
     private String url;
+
+    /**
+     * 图片缩略图 url
+     */
+    private String thumbnailUrl;
 
     /**
      * 图片名称
@@ -73,6 +77,11 @@ public class Picture implements Serializable {
      * 创建用户 id
      */
     private Long userId;
+
+    /**
+     * 空间 id
+     */
+    private Long spaceId;
 
     /**
      * 创建时间
