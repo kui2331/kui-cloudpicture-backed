@@ -46,7 +46,6 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
     @Resource
     private TransactionTemplate transactionTemplate;
 
-    //todo 待理解2
     @Override
     public void validSpace(Space space, boolean add) {
         ThrowUtils.throwIf(space == null, ErrorCode.PARAMS_ERROR);
@@ -72,7 +71,6 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         }
     }
 
-    //todo 如何保证同一用户只能创建一个私有空间呢？
     @Override
     public long addSpace(SpaceAddRequest spaceAddRequest, User loginUser) {
         // 在此处将实体类和 DTO 进行转换
@@ -95,12 +93,11 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
         if (SpaceLevelEnum.COMMON.getValue() != spaceAddRequest.getSpaceLevel() && !userService.isAdmin(loginUser)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "无权限创建指定级别的空间");
         }
-        // todo 待理解，锁、事务
         // 写方案后写代码
         // spring 声明式事务管理@Transactional只能用在整个方法
         // 编程式事务管理TransactionTemplate
         // 针对用户只能创建一个私有空间
-        String lock = String.valueOf(userId).intern();// todo Java8中intern() 方法返回的是同一个对象
+        String lock = String.valueOf(userId).intern();
         synchronized (lock) {
             Long newSpaceId = transactionTemplate.execute(status -> {
                 boolean exists = this.lambdaQuery()
