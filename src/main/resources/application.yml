@@ -54,3 +54,7 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.kui2331.kuiCloudPictureBacked.controller
+
+## 阿里云 AI 配置
+#aliYunAi:
+#  apiKey: xxx

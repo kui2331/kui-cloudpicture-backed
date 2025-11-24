@@ -1,5 +1,6 @@
 package com.kui2331.kuiCloudPictureBacked.api.imagesearch.sub;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -37,6 +38,8 @@ public class GetImagePageUrlApi {
         try {
             // 2. 发送 POST 请求到百度接口
             HttpResponse response = HttpRequest.post(url)
+                    // 这里需要指定acs-token 不然会响应系统异常
+                    .header("acs-token", RandomUtil.randomString(1))
                     .form(formData)
                     .timeout(5000)
                     .execute();
@@ -46,6 +49,7 @@ public class GetImagePageUrlApi {
             }
             // 解析响应
             String responseBody = response.body();
+            //转为map
             Map<String, Object> result = JSONUtil.toBean(responseBody, Map.class);
 
             // 3. 处理响应结果

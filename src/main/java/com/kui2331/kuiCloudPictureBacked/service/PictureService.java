@@ -2,15 +2,18 @@ package com.kui2331.kuiCloudPictureBacked.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kui2331.kuiCloudPictureBacked.api.aliyunai.model.CreateOutPaintingTaskResponse;
 import com.kui2331.kuiCloudPictureBacked.model.dto.picture.*;
 import com.kui2331.kuiCloudPictureBacked.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kui2331.kuiCloudPictureBacked.model.entity.User;
 import com.kui2331.kuiCloudPictureBacked.model.vo.PictureVO;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author kui23
@@ -39,6 +42,8 @@ public interface PictureService extends IService<Picture> {
     PictureVO getPictureVO(Picture picture, HttpServletRequest request);
     Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request);
 
+    List<PictureVO> searchPictureByColor(Long spaceId, String picColor, User loginUser);
+
     void deletePicture(long pictureId, User loginUser);
 
     void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
@@ -62,6 +67,9 @@ public interface PictureService extends IService<Picture> {
      */
     QueryWrapper<Picture> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
 
+    @Transactional(rollbackFor = Exception.class)
+    void editPictureByBatch(PictureEditByBatchRequest pictureEditByBatchRequest, User loginUser);
+
     @Async
     void clearPictureFile(Picture oldPicture);
 
@@ -80,5 +88,20 @@ public interface PictureService extends IService<Picture> {
      */
     void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
 
+    /**
+     * 填充审核参数
+     *
+     * @param picture
+     * @param loginUser
+     */
     void fillReviewParams(Picture picture, User loginUser);
+
+    /**
+     * 创建扩图任务
+     * @param createPictureOutPaintingTaskRequest
+     * @param loginUser
+     */
+    CreateOutPaintingTaskResponse createPictureOutPaintingTask(CreatePictureOutPaintingTaskRequest createPictureOutPaintingTaskRequest, User loginUser);
+
+
 }
